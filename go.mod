@@ -1,12 +1,12 @@
 module github.com/serverless-func/func-ticket
 
-go 1.24.1
+go 1.25.0
 
 require (
 	github.com/PuerkitoBio/goquery v1.11.0
 	github.com/emersion/go-imap v1.2.1
 	github.com/xuri/excelize/v2 v2.10.1
-	golang.org/x/text v0.34.0
+	golang.org/x/text v0.35.0
 )
 
 require (
