@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var reOrderType = regexp.MustCompile(`(成功购买|成功兑现|退票业务)`)
+var reOrderType = regexp.MustCompile(`(成功购买|成功兑现|退票业务|用户退票)`)
 var reOrderNo = regexp.MustCompile(`订单号码([EB\d]+)`)
 var reTicket = regexp.MustCompile(`(\d+)\.([^，]+)，([0-9]{4}年[0-9]{2}月[0-9]{2}日)([0-9]{2}:[0-9]{2})开，([^，]+)-([^，]+)，([A-Z0-9]+)次列车[，,]?([^，]+)，([^，]+)，(?:成人票)?[，,]?票价([0-9]+\.[0-9]+)元`)
 var reRefund = regexp.MustCompile(`(：)([^，]+)，([0-9]{4}年[0-9]{2}月[0-9]{2}日)([0-9]{2}:[0-9]{2})开，([^，]+)-([^，]+)，([A-Z0-9]+)次列车[，,]?([^，]+)，([^，]+)，(?:成人票)?[，,]?票价([0-9]+\.[0-9]+)元[，,]?退票费([0-9]+\.[0-9]+)元，应退票款([0-9]+\.[0-9]+)元`)
@@ -55,7 +55,7 @@ func parse(plainMail string) ([]Ticket, error) {
 		return tickets, fmt.Errorf("未找到订单号")
 	}
 	orderNo := orderNoMatch[1]
-	if orderType == "退票业务" {
+	if orderType == "退票业务" || orderType == "用户退票" {
 		refundMatch := reRefund.FindStringSubmatch(plainMail)
 		if len(refundMatch) != 13 {
 			return tickets, fmt.Errorf("退票业务车票信息查找异常")
